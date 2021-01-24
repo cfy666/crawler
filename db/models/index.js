@@ -1,5 +1,7 @@
-const Slider = require('./slider');
+const Slider = require('./slider'),
+      AgencyInfo = require('./agencyInfo');
 
 module.exports = {
-  Slider
+  Slider,
+  AgencyInfo
 }

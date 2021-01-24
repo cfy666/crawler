@@ -1,6 +1,7 @@
 const { startProcess, qiniuUpload } = require('../libs/utils'),
       config = require('../config/config'),
-      { addSliderData } = require('../services/Slider');
+      { addSliderData } = require('../services/Slider'),
+      { addAgencyInfo } = require('../services/AgencyInfo');
 
 class Crawler {
   crawlSliderData() {
@@ -60,8 +61,16 @@ class Crawler {
               ext: '.jpg'
             })
 
-            if (logoData.logoKey) {
+            if (logoData.key) {
               data.logoKey = logoData.key;
+            }
+
+            const result = await addAgencyInfo(data);
+
+            if(result) {
+              console.log('Data create OK');
+            }else {
+              console.log('Data create failed');
             }
 
           } catch (error) {
