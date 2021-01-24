@@ -1,3 +1,4 @@
+const { qiniu } = require('../config/config');
 const { startProcess, qiniuUpload } = require('../libs/utils'),
       config = require('../config/config'),
       { addSliderData } = require('../services/Slider'),
@@ -85,6 +86,52 @@ class Crawler {
         console.log(error);
       }
     });
+  }
+
+  async crawlRecomCourse () {
+    startProcess({
+      path: '../crawlers/recomCourse',
+      async message(data) {
+        data.map(async (item) => {
+          try {
+            const qiniu = config.qiniu;
+
+            if (item.posterUrl && !item.posterKey) {
+              const posterData =  await qiniuUpload({
+                url: item.posterUrl,
+                bucket: qiniu.bucket.tximg.bucket_name,
+                ext: '.jpg'
+              })
+
+              if (posterData.key) {
+                item.posterKey = posterData.key;
+              }
+            }
+
+            if (item.teacherImg && !item.teacherImgKey) {
+              const teacherData = await qiniuUpload({
+                url: item.teacherImg,
+                bucket: qiniu.bucket.tximg.bucket_name,
+                exit: '.jpg'
+              });
+
+              if (teacherData.key) {
+                item.teacherImgKey = teacherData.key;
+              }
+            }
+
+          } catch (error) {
+            console.log(error);
+          }
+        })
+      },
+      async exit(code) {
+        console.log(code);
+      },
+      async error(error) {
+        console.log(error);
+      }
+    })
   }
 }
 
