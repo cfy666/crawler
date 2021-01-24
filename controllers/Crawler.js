@@ -1,17 +1,16 @@
-const { qiniu } = require('../config/config');
 const { startProcess, qiniuUpload } = require('../libs/utils'),
-      config = require('../config/config'),
       { addSliderData } = require('../services/Slider'),
-      { addAgencyInfo } = require('../services/AgencyInfo');
+      { addAgencyInfo } = require('../services/AgencyInfo'),
+      { addRecomCourse } = require('../services/RecomCourse'),
+      { qiniu } = require('../config/config');
 
 class Crawler {
-  crawlSliderData() {
+  async crawlSliderData() {
     startProcess({
       path: '../crawlers/slider',
       async message(data) {
         data.map(async item => {
           if (item.imgUrl && !item.img_key) {
-            const qiniu = config.qiniu;
 
             try {
               const imgData = await qiniuUpload({
@@ -53,7 +52,6 @@ class Crawler {
       path: '../crawlers/agencyInfo',
       async message(data) {
         if(data.logoUrl && !data.logoKey) {
-          const qiniu = config.qiniu;
 
           try {
             const logoData = await qiniuUpload({
@@ -94,7 +92,6 @@ class Crawler {
       async message(data) {
         data.map(async (item) => {
           try {
-            const qiniu = config.qiniu;
 
             if (item.posterUrl && !item.posterKey) {
               const posterData =  await qiniuUpload({
@@ -120,8 +117,48 @@ class Crawler {
               }
             }
 
+            const result = await addRecomCourse(item);
+
+            if(result) {
+              console.log('Data create OK');
+            }else {
+              console.log('Data create failed');
+            }
+
           } catch (error) {
             console.log(error);
+          }
+        })
+      },
+      async exit(code) {
+        console.log(code);
+      },
+      async error(error) {
+        console.log(error);
+      }
+    })
+  }
+
+  async crawlCollection () {
+    startProcess({
+      path: '../crawlers/collection',
+      async message(data) {
+        data.map(async item => {
+          if(item.posterUrl && !item.posterKey) {
+            try {
+              const posterData = await qiniuUpload({
+                url: item.posterUrl,
+                bucket: qiniu.bucket.tximg.bucket_name,
+                ext: '.jpg'
+              })
+
+              if (posterData.key) {
+                item.posterKey = posterData.key;
+              }
+
+            } catch (error) {
+              console.log(error);
+            }
           }
         })
       },

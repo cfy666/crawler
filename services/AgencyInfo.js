@@ -9,7 +9,7 @@ class AgencyInfoService {
     });
 
     if (result) {
-      return await AgencyInfoModel.update({
+      return await AgencyInfoModel.update(data, {
         where: { id }
       });
     } else {
