@@ -5,6 +5,7 @@ const { startProcess, qiniuUpload } = require('../libs/utils'),
       { addCollection } = require('../services/Collection'),
       { addTeacher } = require('../services/Teacher'),
       { addStudentData } = require('../services/Student'),
+      { addCourseTab } = require('../services/CourseTab'),
       { qiniu } = require('../config/config');
 
 class Crawler {
@@ -255,6 +256,28 @@ class Crawler {
             }
           }
 
+        })
+      },
+      async exit(code) {
+        console.log(code);
+      },
+      async error(error) {
+        console.log(error);
+      }
+    })
+  }
+  async crawlCourseTab () {
+    startProcess({
+      file: 'courseTab',
+      async message(data) {
+        data.map(async item => {
+          const result = await addCourseTab(item);
+
+          if(result) {
+            console.log('Data create OK');
+          } else {
+            console.log('Data create failed');
+          }
         })
       },
       async exit(code) {

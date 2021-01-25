@@ -3,7 +3,8 @@ const Slider = require('./slider'),
       RecomCourse = require('./recomCourse'),
       Collection = require('./collection'),
       Teacher = require('./teacher'),
-      Student = require('./student');
+      Student = require('./student'),
+      CourseTab = require('./courseTab');
 
 module.exports = {
   Slider,
@@ -11,5 +12,6 @@ module.exports = {
   RecomCourse,
   Collection,
   Teacher,
-  Student
+  Student,
+  CourseTab
 }
