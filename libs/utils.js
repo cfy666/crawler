@@ -7,7 +7,7 @@ const cp = require('child_process'),
 
 module.exports = {
   startProcess (options) {
-    const script = resolve(__dirname, options.path),
+    const script = resolve(__dirname, '../crawlers/' + options.file),
           child = cp.fork(script, []);
 
     let invoked = false;

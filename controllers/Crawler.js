@@ -9,7 +9,7 @@ const { startProcess, qiniuUpload } = require('../libs/utils'),
 class Crawler {
   async crawlSliderData() {
     startProcess({
-      path: '../crawlers/slider',
+      file: 'slider',
       async message(data) {
         data.map(async item => {
           if (item.imgUrl && !item.img_key) {
@@ -51,7 +51,7 @@ class Crawler {
 
   async crawlAgencyInfo () {
     startProcess({
-      path: '../crawlers/agencyInfo',
+      file: 'agencyInfo',
       async message(data) {
         if(data.logoUrl && !data.logoKey) {
 
@@ -90,7 +90,7 @@ class Crawler {
 
   async crawlRecomCourse () {
     startProcess({
-      path: '../crawlers/recomCourse',
+      file: 'recomCourse',
       async message(data) {
         data.map(async (item) => {
           try {
@@ -143,7 +143,7 @@ class Crawler {
 
   async crawlCollection () {
     startProcess({
-      path: '../crawlers/collection',
+      file: 'collection',
       async message(data) {
         data.map(async item => {
           if(item.posterUrl && !item.posterKey) {
@@ -183,7 +183,7 @@ class Crawler {
 
   async crawlTeacher () {
     startProcess({
-      path: '../crawlers/teacher',
+      file: 'teacher',
       async message(data) {
         data.map(async item => {
           if (item.teacherImg && !item.teacherImgKey) {
@@ -206,6 +206,50 @@ class Crawler {
               } else {
                 console.log('Data create failed');
               }
+
+            } catch (error) {
+              console.log(error);
+            }
+          }
+
+        })
+      },
+      async exit(code) {
+        console.log(code);
+      },
+      async error(error) {
+        console.log(error);
+      }
+    })
+  }
+
+  async crawlStudent () {
+    startProcess({
+      file: 'student',
+      async message(data) {
+        data.map(async item => {
+          if (item.studentImg && !item.studentImgKey) {
+
+            try {
+              const imgData = await qiniuUpload({
+                url: item.studentImg,
+                bucket: qiniu.bucket.tximg.bucket_name,
+                ext: '.jpg'
+              })
+
+              if (imgData.key) {
+                item.studentImgKey = imgData.key
+              }
+
+              console.log(item);
+
+              // const result = await addSliderData(item);
+
+              // if(result) {
+              //   console.log('Data create OK');
+              // } else {
+              //   console.log('Data create failed');
+              // }
 
             } catch (error) {
               console.log(error);
