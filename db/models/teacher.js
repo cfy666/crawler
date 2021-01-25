@@ -42,6 +42,18 @@ const Teacher = seq.define('teacher', {
     comment: 'qiniu teacher image name',
     type: STRING,
     allowNull: false
+  },
+  isStar: {
+    comment: 'is the teacher a star teacher',
+    type: INT,
+    defaultValue: 0,
+    allowNull: false
+  },
+  status: {
+    comment: 'teacher status',
+    type: INT,
+    defaultValue: 1,
+    allowNull: false
   }
 })
 

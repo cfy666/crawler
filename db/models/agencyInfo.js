@@ -36,6 +36,12 @@ const AgencyInfo = seq.define('agency_info', {
     comment: 'Qiniu logo image name',
     type: STRING,
     allowNull: false
+  },
+  status: {
+    comment: 'agency info status',
+    type: INT,
+    defaultValue: 1,
+    allowNull: false
   }
 })
 

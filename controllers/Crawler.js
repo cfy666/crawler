@@ -4,6 +4,7 @@ const { startProcess, qiniuUpload } = require('../libs/utils'),
       { addRecomCourse } = require('../services/RecomCourse'),
       { addCollection } = require('../services/Collection'),
       { addTeacher } = require('../services/Teacher'),
+      { addStudentData } = require('../services/Student'),
       { qiniu } = require('../config/config');
 
 class Crawler {
@@ -241,15 +242,13 @@ class Crawler {
                 item.studentImgKey = imgData.key
               }
 
-              console.log(item);
+              const result = await addStudentData(item);
 
-              // const result = await addSliderData(item);
-
-              // if(result) {
-              //   console.log('Data create OK');
-              // } else {
-              //   console.log('Data create failed');
-              // }
+              if(result) {
+                console.log('Data create OK');
+              } else {
+                console.log('Data create failed');
+              }
 
             } catch (error) {
               console.log(error);
