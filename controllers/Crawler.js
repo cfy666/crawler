@@ -2,6 +2,7 @@ const { startProcess, qiniuUpload } = require('../libs/utils'),
       { addSliderData } = require('../services/Slider'),
       { addAgencyInfo } = require('../services/AgencyInfo'),
       { addRecomCourse } = require('../services/RecomCourse'),
+      { addCollection } = require('../services/Collection'),
       { qiniu } = require('../config/config');
 
 class Crawler {
@@ -154,6 +155,14 @@ class Crawler {
 
               if (posterData.key) {
                 item.posterKey = posterData.key;
+              }
+
+              const result = await addCollection(item);
+
+              if(result) {
+                console.log('Data create OK');
+              } else {
+                console.log('Data create failed');
               }
 
             } catch (error) {
