@@ -15,7 +15,8 @@ module.exports = {
     url: {
       main: 'https://msiwei.ke.qq.com/#category=-1&tab=0',
       course: 'https://msiwei.ke.qq.com/#tab=1&category=-1',
-      teacher: 'https://msiwei.ke.qq.com/#tab=2&category=-1'
+      teacher: 'https://msiwei.ke.qq.com/#tab=2&category=-1',
+      aboutus: 'https://msiwei.ke.qq.com/#tab=3&category=-1'
     }
   }
 }

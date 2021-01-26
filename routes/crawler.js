@@ -10,6 +10,8 @@ router.get('/crawl_collection', crawlerController.crawlCollection);
 router.get('/crawl_teacher', crawlerController.crawlTeacher);
 router.get('/crawl_student', crawlerController.crawlStudent);
 router.get('/crawl_course_tab', crawlerController.crawlCourseTab);
+router.get('/crawl_course', crawlerController.crawlCourse);
+router.get('/crawl_aboutus', crawlerController.crawlAboutus);
 
 
 module.exports = router;
